@@ -1,19 +1,12 @@
 #include<stdio.h>
 
-int star(count){
-  while(count > 0){
-    printf("*");
-    count--;
-  }
-}
-
 int main(){
   int  character_freq[26];
-  int c,i;
+  int c,i,count=0;
   
   for(i=0;i<26;i++){
     character_freq[i]==0;
-  }
+   }
   while((c=getchar())!=EOF){
     putchar(c);
     if(c>='a' &&  c<='z'){
@@ -28,13 +21,21 @@ int main(){
       
       for(i=0;i<26;i++){
 	if(character_freq[i]!=0){
-	  printf("%c\t\t%d\n",i+97,star(character_freq[i]));
+	  printf("%c\t\t",i+97);
+	  count=character_freq[i];
+	  while(count >0){
+	    printf("*");
+	    count--;
+	  }
+	  printf("\n");
+	  
 	}
       }
       
       for(i=0;i<26;i++){
-        character_freq[i]==0;
+	character_freq[i]=0;
       }
+      count=0;
      
     }
     
