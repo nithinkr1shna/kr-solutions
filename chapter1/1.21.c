@@ -32,18 +32,18 @@ int mgetline(char string[], int lim){
 
 void entab(char string[])
 {
-    int i, consec;
+    int i, space;
     int to, from, tabloc;
         printf("%s\n",string);
 
-    consec = 0;
+    space = 0;
     for (i = 0; string[i] != '\0'; ++i) {
         if (string[i] == ' ')
-	  ++consec;
+	  ++space;
         else
-	  consec = 0;
+	  space = 0;
 
-        if (consec >= TABLEN) {
+        if (space >= TABLEN) {
             
             tabloc = (i - TABLEN) + 1;
 
@@ -57,7 +57,7 @@ void entab(char string[])
             string[tabloc] = '\t';
             string[to] = '\0';
             i = tabloc+1;
-            consec = 0;
+            space  = 0;
         }
     }
     printf("%s",string);
