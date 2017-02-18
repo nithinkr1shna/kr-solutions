@@ -3,7 +3,7 @@
 #define TABINC 4
 
 int main(){
-  int num_of_spaces=0, num_of_tabs=0,i;
+  int i;
   char c;
   while((c=getchar())!=EOF){
     if (c=='\t'){
