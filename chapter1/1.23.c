@@ -34,7 +34,7 @@ int iscomment(char string[]){
       mcmt=FALSE;
       i++; 
     }
-    else if(scmt==TRUE || mcmt==TRUE){
+    else if(scmt || mcmt){
       i++;
       continue;
     }
