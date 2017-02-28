@@ -86,12 +86,12 @@ int getop(char s[]){
     
   s[i] = '\0';
   if (!isdigit(c) && c != '.')
-    return c; /* not a number */
+    return c; 
   i = 0;
-  if (isdigit(c)) /* collect integer part */
+  if (isdigit(c)) 
     while (isdigit(s[++i] = c = getch()))
       ;
-  if (c == '.') /* collect fraction part */
+  if (c == '.') 
     while (isdigit(s[++i] = c = getch()))
      ;
   s[i] = '\0';
@@ -103,12 +103,12 @@ int getop(char s[]){
 char buf[BUFSIZE];
 int bufp=0;
 
-int getch(void) /* get a (possibly pushed-back) character */
+int getch(void) 
 {
 return (bufp > 0) ? buf[--bufp] : getchar();
 }
 
-void ungetch(int c) /* push character back on input */
+void ungetch(int c) 
 {
   if (bufp >= BUFSIZE)
     printf("ungetch: too many characters\n");

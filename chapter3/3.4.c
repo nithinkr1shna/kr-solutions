@@ -36,6 +36,7 @@ void itoa(int num, char string[]){
 
 
 void reverse(char string[]){
+  
     int i;
     printf("the string is \n");
     for(i=strlen(string);i>=0;i--){

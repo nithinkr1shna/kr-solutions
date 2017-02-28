@@ -31,9 +31,10 @@ double myatof(char s[])
     if(s[i]=='+' || s[i] == '-')
         i++;
 
-    for(val=0.0;isdigit(s[i]);i++)
-        val = 10.0 * val + (s[i] - '0');
-    
+    for(val=0.0;isdigit(s[i]);i++){
+      val = 10.0 * val + (s[i] - '0');
+      printf("%f\n",val);
+    }
     if(s[i]=='.')
         i++;
 
@@ -41,6 +42,7 @@ double myatof(char s[])
     {
         val = 10.0 * val + (s[i] - '0');
         pow *= 10.0;
+	printf("%f\n",pow);
     }
 
     if(s[i]=='e' || s[i] =='E')
@@ -51,9 +53,9 @@ double myatof(char s[])
         i++;
     }
 
-    for(exp=0;isdigit(s[i]);i++)
+    for(exp=0;isdigit(s[i]);i++){
         exp=10.0 * exp + (s[i] - '0');
-    
+    }
     if( esign == '-')
         return sign * (val / pow) / power(10,exp);
     else
