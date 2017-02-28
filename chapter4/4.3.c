@@ -7,7 +7,12 @@
 #define NUMBER '0'
 #define MAXVAL 100
 #define BUFSIZE 100
-
+#define MINUS '-'
+#define PLUS '+'
+#define MOD '%'
+#define DIVISION '/'
+#define MULT '*'
+#define PERIOD '.'
 
 int getop(char []);
 void push(double);
@@ -27,23 +32,23 @@ int main(){
       case NUMBER:
         push(atof(s));
         break;
-      case '+':
+      case PLUS:
         push(pop() + pop());
         break;
-      case '*':
+      case MULT:
         push(pop() * pop());
         break;
-      case '-':
+      case MINUS:
         op2 = pop();
         push(pop() - op2);
         break;
-      case '%':
+      case MOD:
         op2 =pop();
 	if(op2 != 0.0)
-	  push(fmod(pop(),op2));
+	   push(fmod(pop(),op2));
 	else
-	  printf("zero divisor error");
-      case '/':
+           printf("zero divisor error");
+      case DIVISION:
         op2 = pop();
         if (op2 != 0.0)
           push(pop() / op2);
@@ -81,29 +86,32 @@ double pop(void){
 int getop(char s[]){
 
   int i, c;
-  while ((s[0] = c = getch()) == ' ' || c == '\t')
+  while ((s[0] = c = getch()) == ' ' || c == '\t') // skips white space
     ;
-    
+     
   s[1] = '\0';
   i = 0;
   
-  if (!isdigit(c) && c != '.' && c!= '-')
-    return c; 
-
-  if(c=='-')
-        if(isdigit(c=getch()) || c == '.')
+  if (!isdigit(c) && c != PERIOD  && c!= MINUS){ //returns operator +
+    return c;
+  }
+  
+  if(c==MINUS)
+    if(isdigit(c=getch()) || c == PERIOD){
             s[++i]=c;
+	   
+    }
         else
         {
             if(c!=EOF)
                 ungetch(c);
-            return '-';
+            return MINUS;
         }
   
   if (isdigit(c)) 
     while (isdigit(s[++i] = c = getch()))
       ;
-  if (c == '.') 
+  if (c == PERIOD) 
     while (isdigit(s[++i] = c = getch()))
      ;
   s[i] = '\0';
