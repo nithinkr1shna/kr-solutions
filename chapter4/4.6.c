@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<ctype.h>
-#include<math.h>
-#include<string.h>
+#include <ctype.h>
+#include <math.h>
+#include <string.h>
 
 #define MAXOP 100 
 #define NUMBER '0'
@@ -21,6 +21,8 @@
 #define IDENTIFIER 1
 #define VARIABLE 0
 #define VARMAX 27
+#define EQUALS '='
+
 
 int getop(char []);
 void push(double);
@@ -32,19 +34,19 @@ void duplicate(void);
 void swap(void);
 void clear();
 void mathFunctions(char s[]);
-
+void toarray(char s[]);
 int sp =0;
 
-double var_array[VARMAX];
+double variable[VARMAX];
 
   
 int main(){
   
-  int type,iterator;
+  int type,iterator,var=0;
   double op2;
   char s[MAXOP];
   for(iterator=0;iterator <27; iterator++){
-    var_array[iterator]=0;
+    variable[iterator]=0;
   }
   while ((type = getop(s)) != EOF) {
     switch (type) {
@@ -52,11 +54,15 @@ int main(){
         push(atof(s));
         break;
       case IDENTIFIER:
-	mathFunctions(s);
-	break;
-      case VARIABLE:
-	printf("%s",s);
-        break;      
+        mathFunctions(s);
+        break;
+      case EQUALS:
+       pop();
+       if(var>='A' && var <='Z')
+         variable[var-'0']=pop();
+       else
+         printf("error: no variable name\n");
+       break;
       case PLUS:
         push(pop() + pop());
         break;
@@ -100,9 +106,16 @@ int main(){
         printf("\t%.8g\n", pop());
         break;
       default:
-        printf("error: unknown command %s\n", s);
-        break;
+       if(type>='A' && type<='Z')
+          push(variable[type-'0']);
+       else if(type =='v')
+          pop();
+       else
+          printf("error: unknown command %s\n",s);
+       break;
    }
+   var=type;
+    
  }
 return 0;
 }
@@ -132,7 +145,10 @@ int getop(char s[]){
      
   s[1] = '\0';
   i = 0;
-  
+
+  if (!isdigit(c) && c != PERIOD  && c!= MINUS){ //returns operator +
+    return c;
+  }
   if(isalpha(c)){
     while(isalpha(s[i++]=c)){
       c=getch();
@@ -141,15 +157,10 @@ int getop(char s[]){
     if(c!=EOF){
       ungetch(c);
     }
-    if(strlen(s)>0)
-      return VARIABLE;
-    else
       return IDENTIFIER;
   }
   
-  if (!isdigit(c) && c != PERIOD  && c!= MINUS){ //returns operator +
-    return c;
-  }
+  
   
   if(c==MINUS)
     if(isdigit(c=getch()) || c == PERIOD){
@@ -238,4 +249,11 @@ void mathFunctions(char s[]){
   }else
     printf("%s is not supported\n", s);
     
+}
+
+void toarray(char s[]){
+int i;
+  while(s[i++] != '\0'){ 
+   ;
+  }
 }
