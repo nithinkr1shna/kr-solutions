@@ -38,6 +38,7 @@ int main(){
   int type;
   double op2;
   char s[MAXOP];
+  
   while ((type = getop(s)) != EOF) {
     switch (type) {
       case NUMBER:
@@ -132,6 +133,7 @@ int getop(char s[]){
     }
     return IDENTIFIER;
   }
+  
   if (!isdigit(c) && c != PERIOD  && c!= MINUS){ //returns operator +
     return c;
   }

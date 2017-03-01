@@ -1,59 +1,64 @@
-
-
-
 #include<stdio.h>
 #include<string.h>
-#define MAXLENGTH 1000
+#define MAXLEN 50
+#define MAXBUF 50
 
-int mgetline(char string[], int lim);
-int strindex(char s[], char t[]);
+int mgetline(char s[], int lim);
+void ungetch(int c);
+int getch(void);
+void ungets(char s[]);
+
+char buf[MAXLEN];
 
 int main(){
-
-  int length, found =0,i;
-  char string[MAXLENGTH], pattern[MAXLENGTH];
-  printf("Enter the pattern to search\n");
-  mgetline(pattern, MAXLENGTH);
-  printf("Enter the string to check\n");
-  while (mgetline(string, MAXLENGTH) >0){
-    if((i=strindex(string, pattern)) >= 0){
-      printf("%s\n",string);
-      printf("the position of occurance is\t%d\n",i-1);
-    }
-    return found;
-    
+  char string[MAXLEN];
+  int c,k;
+  mgetline(string, MAXLEN);
+  ungets(string);
+  while((c=getch())!=EOF){
+    putchar(c);
   }
-  
+
+  for(k=0;k<MAXLEN;k++){
+    buf[k]=0;
+  }
 }
 
-int mgetline(char string[], int limit){
-
-  int i=0,c;
-  while(--limit > 0 &&((c=getchar())!=EOF) && c!='\n')
-    string[i++]=c;
+int mgetline(char s[], int lim){
+  
+  int i, c;
+  for(i=0;i<lim-1 && (c=getchar())!=EOF&& c!='\n';++i){
+    s[i]=c;
+  }
   if(c=='\n')
-    string[i++]==c;
-  string[i]='\0';
+    s[i++]=c;
+  s[i]='\0';
+
   return i;
-    
+
 }
 
-int strindex(char s[], char t[]){
-  
-  int i, j, k;
-  int line_len = strlen(s)-1;
-  int pattern_len = strlen(t)-1;
-  
-  for (i = line_len; i>=0; i--) {
-    for (j=i, k=pattern_len; ((k>=0) && (s[j]==t[k]));j--,k--){
-      
-      if (k==0){
-	
-        return i;
-      }
-    }
-  }
-  
-return -1;
- 
+int bufp;
+
+void ungetch(int c)
+{
+    if(bufp >= MAXBUF)
+        printf("ungetch: too many characters\n");
+    else
+        buf[bufp++]=c;
 }
+
+
+int getch(void)
+{
+    return (bufp > 0)?buf[--bufp]:getchar();
+}
+
+void ungets(char s[])
+{
+  int i,k;
+    
+  i = 1;
+  ungetch(s[--i]);
+}
+
