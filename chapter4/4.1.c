@@ -10,6 +10,7 @@ void ungets(char s[]);
 
 char buf[MAXLEN];
 
+
 int main(){
   char string[MAXLEN];
   int c,k;

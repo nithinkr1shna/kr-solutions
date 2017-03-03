@@ -141,6 +141,8 @@ int getop(char s[]){
 
   int c;
   static int i;
+  
+    
   while ((s[0] = c = getch()) == ' ' || c == '\t') // skips white space
     ;
      
