@@ -3,15 +3,16 @@
 #define MAXLEN 100
 
 int mgetline( char *, int lim);
-void itoa(int n, char *);
+char itoa(int n, char *);
 int atoi(char *);
 void reverse(char *);
 //void strindex();
 //void getop();
 
 int main(){
-  int len,n;
+  int len,n,k;
   char s[MAXLEN],ato_i[MAXLEN],rvrs[MAXLEN],ito_a[MAXLEN];
+   printf("enter the string\n");
   len = mgetline(s,MAXLEN);
   printf("%s",s);
   printf("%d",len);
@@ -23,9 +24,13 @@ int main(){
   printf("\n");
 
   printf("---itoa---\n");
-  printf("Enter the integer\n");
-  scanf("%d\n",&n);
+  printf("the value passed is 456\n");
+  n=456;
   itoa(n,ito_a);
+  printf("%s\n",ito_a);
+  printf("the value passed is -678\n");
+  k=-678;
+  itoa(k,ito_a);
   printf("%s\n",ito_a);
   
   printf("---\t--atoi--\t----\n");
@@ -86,22 +91,28 @@ void reverse(char *s){
     }
 }
 
-void itoa(int n, char *s){
+char itoa(int n, char *s){
 
   int sign;
     char *t=s;
     
-    if((sign = n) < 0)
+    if((sign = n) < 0){
         n = -n;
+	*s++ = '-';
+    }  
 
     do
     {
-        *s++ = n % 10 + '0';
+        *s++ = n % 10+'0' ;
+       
     } while ((n /= 10) > 0);
 
-    if(sign < 0)
-        *s++ = '-';
+    
+    
+   
+  
     *s='\0';
+    
 
   
 }
