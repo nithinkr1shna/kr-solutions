@@ -9,7 +9,7 @@
 #define MAXSTORE 10000
 
 char *lineptr[MAXLINES];
-void writelines(char *lineptr[], int nlines,int n);
+void writelines(char *lineptr[], int nlines,int n,int argc);
 void tail(char line[], int n);
 int readlines(char *lineptr[], int n, char []);
 int mgetline(char *, int);
@@ -18,14 +18,9 @@ int main(int argc, char** argv){
 
   int nlines,tail_len; /* number of input lines read */
   char linestore[MAXSTORE];
-  //if(argc>0)
-  //  tail_len = atoi(argv[1]);
-  // else
-  //tail_len =5;
-  
+  printf("\nThe default tail length is 5 unless a length is given as cmd line argument \nEnter a sentence\n");
   if ((nlines = readlines(lineptr, MAXLINES,linestore)) >= 0) {
-    printf("%d",nlines);
-    writelines(lineptr, nlines,atoi(argv[1]));
+    writelines(lineptr, nlines,atoi(argv[1]),argc);
     
      return 0;
    } else {
@@ -36,14 +31,20 @@ int main(int argc, char** argv){
   
   
 }
-void writelines(char *lineptr[], int nlines,int n){
+void writelines(char *lineptr[], int nlines,int n, int argc){
   printf("passed argument is %d\n",n);
+  int to_strip=0;
+  //printf("%d",argc);
   int len = strlen(*lineptr);
-  int to_strip= len-(n+1);
+  if (len >= n)
+     to_strip= len-(n+1);
+    
+  
   
   
      
   printf("the length od string %d\n",len);
+  printf("\nThe tail is: ");
   while(nlines -- > 0)
     printf("%s\n", *lineptr+to_strip);
 }
@@ -64,12 +65,7 @@ int mgetline(char *sp, int lim){
   return counter;
 }
 
-void tail(char line[], int n){
 
-  int len=strlen(line);
-  printf("%d",len);
-  
-}
 
 
 int readlines(char *lineptr[], int maxlines, char *ls)
