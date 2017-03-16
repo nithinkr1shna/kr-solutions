@@ -1,6 +1,9 @@
 #include<stdio.h>
+#include<stdlib.h>
 #define MAXLENGTH 1000
+#define TABINC 4
 
+void detab(int argc, char *argv[]);
 void entab(char string[]);
 int mgetline(char string[], int lim);
 
@@ -13,26 +16,49 @@ int main(int argc, char *argv[]){
   scanf("%d",&choice);
 
   if(choice ==1){
-    
-    if(argc > 0){
-      for(i=0;i<argc;i++)
-        tabinc=*argv[i];
-    }else
-    tabinc =4;
-    while((c=getchar())!=EOF){
-      if (c=='\t'){
-        for(i=0;i<=tabinc;i++)
-	  putchar(' ');
-      }
-      else {
-        putchar(c);
-      }
-    }
+    detab(argc, argv);
+      
   }
+  else
+    choice2();
+}
+
+void detab(int argc, char *argv[]){
+  int argmnt_count =0,c,i,j;
+  
+  if(argc>1){
+    argmnt_count =1;
+  }
+  
+    while((c=getchar())!=EOF){
+         if (c=='\t'){
+	     if(argmnt_count==0){ 
+                 for(i=0;i<=TABINC;i++)
+	           putchar(' ');
+	     }else{
+	       i=1;
+	       printf("%d",atoi(argv[i]));
+	       while(--argc > 0){
+		 printf("%d",atoi(argv[i]));
+		 for(j=0;j<atoi(argv[i]);j++,i++){
+		   putchar(' ');
+		 }
+		
+	        
+	       }
+            }
+	 }
+	     else{
+              putchar(c);
+         }
+    }
+
+    
+}
 
 
 
- else if(choice ==2){
+void choice2(){
     
   
     char string[MAXLENGTH],longest[MAXLENGTH];
@@ -48,8 +74,7 @@ int main(int argc, char *argv[]){
     }
  
   }
-  
-}
+ 
 
 
 
@@ -96,4 +121,5 @@ void entab(char string[])
     }
     printf("%s",string);
 }
+
 

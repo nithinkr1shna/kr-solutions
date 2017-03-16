@@ -22,6 +22,12 @@ int main(int argc, char *argv[]){
   if (argc > 1 && strcmp(argv[1], "-n") == 0)
     numeric = 1;
   if ((nlines = readlines(lineptr, MAXLINES,linestore)) >= 0) {
+
+    // I am not getting how this call to mqsort works. The function definition of
+    // mqsort seems to accept the function as the 3rd argument but
+    // this "(int (*)(void*,void*))(numeric  ? numcmp : strcmp) " section is really
+    // confusing.
+    
     mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric  ? numcmp : strcmp));
     writelines(lineptr, nlines);
     return 0;

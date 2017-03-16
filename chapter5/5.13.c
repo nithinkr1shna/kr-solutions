@@ -24,7 +24,7 @@ int main(int argc, char** argv){
     
      return 0;
    } else {
-      printf("error: input too big to sort\n");
+      printf("no lines\n");
        return 1;
    }
   
