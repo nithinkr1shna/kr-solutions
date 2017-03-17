@@ -28,24 +28,38 @@ int main(int argc, char *argv[]){
   char linestore[MAXSTORE];
   printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nCommand-line arguments Usage:\n -r for reverse over lexographical order \n -nr or -rn for reverse over n \n -n for numerical order\n default: lexographical order\n\n\nEnter some lines\n\n");
 
-  if ((argc >1 && strcmp(argv[1], "-f"))==0)
+  if ((argc >1 && strcmp(argv[1], "-f"))== 0)
     fold =1;
-  if ( (argc > 1 && strcmp(argv[1], "-nr")==0) ||(argc >1 && strcmp(argv[1],"-rn") ==0 ) ){
+  else if ( (argc >1 && strcmp(argv[1], "-fr"))== 0|| (argc >1 && strcmp(argv[1], "-fr"))== 0 ){
+    fold=1;
+    recursive=1;
+  }
+  else  if ( (argc >1 && strcmp(argv[1], "-fn"))== 0|| (argc >1 && strcmp(argv[1], "-nf"))== 0 ){
+    fold=1;
+    numeric=1;
+  }
+  
+  else if ( (argc > 1 && strcmp(argv[1], "-nr")== 0) ||(argc >1 && strcmp(argv[1],"-rn") ==0 ) ){
     numeric=1;
     recursive=1;
   }
-  if (argc > 1 && strcmp(argv[1], "-n") == 0  ){  
+  else if (argc > 1 && strcmp(argv[1], "-n") == 0  ){  
         numeric =1;
   }
-  if(argc>1 && strcmp(argv[1], "-r")==0){
+  else if(argc > 1 && strcmp(argv[1], "-r") == 0 ){
       
 	recursive =1;
+  }
+  else{
+    fold=1;
+    numeric=1;
+    recursive=1;
   }
   
 					     
   if ((nlines = readlines(lineptr, MAXLINES,linestore)) >= 0) {
     
-      mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric ? numcmp : strncasecmp));
+      mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric ? numcmp : strcmp));
       if(recursive==1){
         reverse(lineptr,nlines);
         //writelines(lineptr, nlines);
@@ -105,8 +119,13 @@ void mqsort(void *v[], int left, int right,int (*comp)(void *, void *)){
   swap(v, left, (left + right)/2);
   last = left;
   for (i = left+1; i <= right; i++)
+    if(fold==1){
+      if(strcicmp(v[i], v[left]) <0)
+	swap(v,++last,i);
+    }else{
     if ((*comp)(v[i], v[left]) < 0)
       swap(v, ++last, i);
+      }
   swap(v, left, last);
   mqsort(v, left, last-1, comp);
   mqsort(v, last+1, right, comp);
