@@ -1,3 +1,5 @@
+//program to display lines lexicographically and in order of numbers
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -10,7 +12,7 @@ char *lineptr[MAXLINES];/* pointers to text lines */
 int readlines(char *lineptr[], int nlines,char *ls);
 void writelines(char *lineptr[], int nlines);
 void mqsort(void *lineptr[], int left, int right,int (*comp)(void *, void *));
-int numcmp(char *, char *);
+int numcmp(const char *, const char *);
 
 /* sort input lines */
 int main(int argc, char *argv[]){
@@ -19,16 +21,13 @@ int main(int argc, char *argv[]){
   int nlines; /* number of input lines read */
   int numeric = 0; /* 1 if numeric sort */
   char linestore[MAXSTORE];
+  printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nEnter some lines\n\n");
+  
   if (argc > 1 && strcmp(argv[1], "-n") == 0)
     numeric = 1;
   if ((nlines = readlines(lineptr, MAXLINES,linestore)) >= 0) {
-
-    // I am not getting how this call to mqsort works. The function definition of
-    // mqsort seems to accept the function as the 3rd argument but
-    // this "(int (*)(void*,void*))(numeric  ? numcmp : strcmp) " section is really
-    // confusing.
     
-    mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric  ? numcmp : strcmp));
+    mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric ? numcmp : strcmp));
     writelines(lineptr, nlines);
     return 0;
    } else {
@@ -37,6 +36,12 @@ int main(int argc, char *argv[]){
    }
 }
 
+void writelines(char *lineptr[], int nlines){
+
+  while(nlines-- > 0)
+    printf("%s\n", *lineptr++);
+  
+}
 
 int mgetline(char *sp, int lim){
   int c,counter =0;
@@ -69,9 +74,11 @@ void mqsort(void *v[], int left, int right,int (*comp)(void *, void *)){
   swap(v, left, last);
   mqsort(v, left, last-1, comp);
   mqsort(v, last+1, right, comp);
+
 }
 
-int numcmp(char *s1, char *s2){
+
+int numcmp(const char *s1, const char *s2){
 
   double v1, v2;
   v1 = atof(s1);
@@ -102,10 +109,11 @@ int readlines(char *lineptr[], int maxlines, char *ls)
         if (nlines >= maxlines || (strlen(ls) + len) > MAXSTORE)
             return -1;
         else
-        {   line[len+1] = '\0';
+	  { line[len] = '\0';
             strcpy(p, line);
             lineptr[nlines++] = p;
-            p += len; /* point p to next empty position */
+            p += len+1; /* point p to next empty position */
+	    
         }
     return nlines;
 }
