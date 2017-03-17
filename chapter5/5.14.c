@@ -10,31 +10,61 @@ char *lineptr[MAXLINES];/* pointers to text lines */
 
 
 int readlines(char *lineptr[], int nlines,char *ls);
+void reverse(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void mqsort(void *lineptr[], int left, int right,int (*comp)(void *, void *));
 int numcmp(const char *, const char *);
-
+int mgetline(char *, int lim);
 /* sort input lines */
 int main(int argc, char *argv[]){
   
 
   int nlines; /* number of input lines read */
   int numeric = 0; /* 1 if numeric sort */
+  int recursive =0;
   char linestore[MAXSTORE];
-  printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nEnter some lines\n\n");
+  printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nEnter some lines\nDefault: sort lexicographically\n\n");
   
-  if (argc > 1 && strcmp(argv[1], "-n") == 0)
-    numeric = 1;
+  if (argc > 1 && strcmp(argv[1], "-n") == 0  ){  
+        numeric =1;
+  }
+  if(argc>1 && strcmp(argv[1], "-r")==0){
+      
+	recursive =1;
+  }
+  
+					     
   if ((nlines = readlines(lineptr, MAXLINES,linestore)) >= 0) {
     
-    mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric ? numcmp : strcmp));
-    writelines(lineptr, nlines);
+      mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric ? numcmp : strcmp));
+      if(recursive==1){
+        reverse(lineptr,nlines);
+        //writelines(lineptr, nlines);
+      }else{
+        writelines(lineptr, nlines);
+      }
+    
     return 0;
    } else {
     printf("input too big to sort\n");
      return 1;
    }
 }
+
+// helper function which reverses the sorted output of qsort
+void reverse(char *lineptr[], int nlines){
+  
+  int linenum = nlines;
+  while(nlines-- > 0)
+    *lineptr++;
+  
+  *lineptr--;
+  
+  while(linenum-- >0)
+    printf("%s\n",*lineptr--);
+}
+
+//helper function for writing the lines to output
 
 void writelines(char *lineptr[], int nlines){
 
@@ -43,21 +73,6 @@ void writelines(char *lineptr[], int nlines){
   
 }
 
-int mgetline(char *sp, int lim){
-  int c,counter =0;
-  for(;(c=getchar())!=EOF && c != '\n'; *sp++){
-    *sp=c;
-    counter++;
-  }
-  if(c=='\n'){
-    *sp =c;
-    *sp++;
-  }
-  *sp='\0';
-  
- 
-  return counter;
-}
 
 
 void mqsort(void *v[], int left, int right,int (*comp)(void *, void *)){
@@ -77,6 +92,7 @@ void mqsort(void *v[], int left, int right,int (*comp)(void *, void *)){
 
 }
 
+// helper functions used in mqsort
 
 int numcmp(const char *s1, const char *s2){
 
@@ -99,6 +115,8 @@ void swap(void *v[], int i, int j){
   v[j] = temp;
 }
 
+//helper functions for reading from input
+
 int readlines(char *lineptr[], int maxlines, char *ls)
 {
     int len, nlines;
@@ -116,4 +134,20 @@ int readlines(char *lineptr[], int maxlines, char *ls)
 	    
         }
     return nlines;
+}
+
+int mgetline(char *sp, int lim){
+  int c,counter =0;
+  for(;(c=getchar())!=EOF && c != '\n'; *sp++){
+    *sp=c;
+    counter++;
+  }
+  if(c=='\n'){
+    *sp =c;
+    *sp++;
+  }
+  *sp='\0';
+  
+ 
+  return counter;
 }
