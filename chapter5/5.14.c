@@ -23,8 +23,12 @@ int main(int argc, char *argv[]){
   int numeric = 0; /* 1 if numeric sort */
   int recursive =0;
   char linestore[MAXSTORE];
-  printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nEnter some lines\nDefault: sort lexicographically\n\n");
-  
+  printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nCommand-line arguments Usage:\n -r for reverse over lexographical order \n -nr or -rn for reverse over n \n -n for numerical order\n default: lexographical order\n\n\nEnter some lines\n\n");
+
+  if ( (argc > 1 && strcmp(argv[1], "-nr")==0) ||(argc >1 && strcmp(argv[1],"-rn") ==0 ) ){
+    numeric=1;
+    recursive=1;
+  }
   if (argc > 1 && strcmp(argv[1], "-n") == 0  ){  
         numeric =1;
   }
