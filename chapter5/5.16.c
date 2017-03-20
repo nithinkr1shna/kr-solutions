@@ -10,8 +10,10 @@
 
 char *lineptr[MAXLINES];/* pointers to text lines */
 int fold =0;
+int directory =0 ;
 
 int strcicmp(char const *a, char const *b);
+void letters_nums_blanks(char *lineptr[], int nlines, char *lineptr2[]);
 int readlines(char *lineptr[], int nlines,char *ls);
 void reverse(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
@@ -24,12 +26,13 @@ int main(int argc, char *argv[]){
   int i;
   int nlines; /* number of input lines read */
   int numeric = 0; /* 1 if numeric sort */
-  int recursive =0,directory=0;
+  int recursive =0;
   char linestore[MAXSTORE];
-  printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nCommand-line arguments Usage:\n -r for reverse over lexographical order \n -nr or -rn for reverse over n \n -n for numerical order\n default: lexographical order\n\n\nEnter some lines\n\n");
+  printf("\n\nProgram SORT-LEXICO & NUMERICAL order\nCommand-line arguments Usage:\n -r for reverse over lexographical order \n -nr or -rn for reverse over n \n -n for numerical order\n -d for taking only numbers letters and blanks\n  default: lexographical order\n\n\nEnter some lines\n\n");
   for(i=1;i<argc;i++){
     if(argc>1 && strcmp((argv[i]),"-d")==0){
       directory =1;
+     
     }
     else if ((argc >1 && strcmp(argv[i], "-f"))== 0)
       fold =1;
@@ -42,12 +45,12 @@ int main(int argc, char *argv[]){
   } 
 					     
   if ((nlines = readlines(lineptr, MAXLINES,linestore)) >= 0) {
-    
       mqsort((void**) lineptr, 0, nlines-1,(int (*)(void*,void*))(numeric ? numcmp : strcmp));
       if(recursive==1){
         reverse(lineptr,nlines);
         //writelines(lineptr, nlines);
-      }else{
+      }
+      else{
         writelines(lineptr, nlines);
       }
     
@@ -57,6 +60,7 @@ int main(int argc, char *argv[]){
      return 1;
    }
 }
+
 
 
 
@@ -164,10 +168,29 @@ int readlines(char *lineptr[], int maxlines, char *ls)
 
 int mgetline(char *sp, int lim){
   int c,counter =0;
-  for(;(c=getchar())!=EOF && c != '\n'; *sp++){
-    *sp=c;
-    counter++;
+  
+  if(directory ==1 ){
+    for(;(c=getchar())!=EOF && c!='\n';sp++){
+
+      if(isdigit(c)){
+	*sp=c;
+	counter++;
+      }else if(c == ' '){
+        *sp=c;
+	counter++;
+      }else if((c>='a'&& c<='z')||(c>='A' && c<= 'Z')){
+        *sp =c;
+	counter++;
+      }
+    }
   }
+  else{
+    for(;(c=getchar())!=EOF && c != '\n'; *sp++){
+      *sp=c;
+      counter++;
+    }
+  }
+
   if(c=='\n'){
     *sp =c;
     *sp++;
