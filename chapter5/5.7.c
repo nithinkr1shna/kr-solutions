@@ -59,9 +59,10 @@ int readlines2(char *lineptr[], int maxlines){
     if (nlines >= maxlines  ) 
       return -1;
     else {
-      line[len-1] = '\0'; /* delete newline */
+      line[len] = '\0'; /* delete newline */
       strcpy(p, line);
       lineptr[nlines++] = p;
+      p += len+1;
   }
 return nlines;
 }

@@ -23,5 +23,7 @@ int main(int argc , char **argv){
 	printf("same\n");
       
     }
+    fclose(fp1);
+    fclose(fp2);
   }
 }

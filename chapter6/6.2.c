@@ -45,9 +45,9 @@ int main(int argc , char **argv){
     if (isalpha(word[0]) && strlen(word) >= num)
       root = addtree(root, word,num,&find);
     find= NO;
+
   }
   treeprint(root);
-
   return 0;
 }
 

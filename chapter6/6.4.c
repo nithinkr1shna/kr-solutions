@@ -13,6 +13,7 @@ struct tnode *addtree(struct tnode *, char *, int);
 void treeprint(struct tnode *);
 void filter_to_alpha(char *, int line_no);
 struct tnode *talloc(void);
+int numcmp(const char *s1, const char *s2);
 char *s_dup(char *);
 
 struct tnode{
@@ -110,6 +111,19 @@ void treeprint(struct tnode *p){
 }
 struct tnode *talloc(void){
   return (struct tnode *) malloc(sizeof(struct tnode));
+}
+
+int numcmp(const char *s1, const char *s2){
+
+  double v1, v2;
+  v1 = atof(s1);
+  v2 = atof(s2);
+  if (v1 < v2)
+    return -1;
+  else if (v1 > v2)
+    return 1;
+  else
+    return 0;
 }
 
 char *s_dup(char *s){

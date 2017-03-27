@@ -27,13 +27,12 @@ struct tnode{
 struct tnode *root;
 
 
-
-
 int main(){
 
   FILE *fp;
   char *line = malloc(MAXWORD);
   int line_no;
+  printf("Program to count the occurances of a word in a file\n\n");
   fp = fopen("document.txt","r");
   while((fgets(line, MAXWORD, fp)) != NULL){
     //printf("%s",line);
@@ -84,6 +83,8 @@ void make_entry(char *word, int line_no){
 struct tnode *addtree(struct tnode *p, char *w, int line_no ){
   int len;
   int cond;
+  static int index=0;
+  static int k=0;
   if(p == NULL){
 
     p = talloc();
@@ -91,8 +92,7 @@ struct tnode *addtree(struct tnode *p, char *w, int line_no ){
     p->left = p->right = NULL;
   }
   else if ((cond = strcmp(w, p->word)) == 0){
-    len = strlen((const char *)p->count);
-      p->count[len+1]=line_no; /* repeated word */
+    
   }
     else if (cond < 0) /* less than into left subtree */
       p->left = addtree(p->left, w,line_no);
@@ -123,3 +123,4 @@ char *s_dup(char *s){
     strcpy(p, s);
   return p;
 }
+ 
