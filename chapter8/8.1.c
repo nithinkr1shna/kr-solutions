@@ -19,6 +19,7 @@ int main(int argc, char **argv){
       n=read(fd,buf,BUFSIZE);
       if(write(1,buf,n) !=n)
 	printf("Write Error\n");
+      close(fd);
     }
   }
 
